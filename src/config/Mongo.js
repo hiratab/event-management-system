@@ -45,8 +45,6 @@ const closeMongoClient = async () => {
 }
 
 const buildConnectionString = () => {
-    console.log(process.env)
-    console.log(process.env.MONGO_DB_CONNECTION_STRING)
     console.log('Parsing connection string', MONGO_DB_CONNECTION_STRING)
 
     let connectionString = MONGO_DB_CONNECTION_STRING
@@ -55,6 +53,7 @@ const buildConnectionString = () => {
         .replace('{dbName}', MONGO_DB_DBNAME)
     
     console.log('Parsed connection string', connectionString)
+    return connectionString
 }
 
 module.exports = {
