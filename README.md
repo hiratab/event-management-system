@@ -13,3 +13,5 @@ Run back-end server with:
 
 Run front-end with:
 > (cd front_end/my-app ; npm start)
+
+Find work to be done in : [Project] (https://github.com/hiratab/event-management-system/projects/1)
