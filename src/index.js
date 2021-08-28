@@ -23,6 +23,10 @@ process.on('uncaughtException', (error) => {
   shutdown(1)
 })
 
+process.on('unhandledRejection', (error) => {
+  console.error('unhandledRejection', error)
+  shutdown(1)
+})
 const configureRoutes = () => {
   app.get('/health', healthCheck)
   app.use('/', require('./routes'))
