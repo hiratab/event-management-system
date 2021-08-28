@@ -7,8 +7,6 @@ const {
     MONGO_DB_CONNECTION_STRING
 } = process.env
 
-const URI = "mongodb+srv://mongoDBUser:PN3e4QjHTfYtAFxd@cluster0.trm95.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
 let _MongoClient
 
 const getMongoClient = async (dbName, collectionName) => {
@@ -21,11 +19,9 @@ const getMongoClient = async (dbName, collectionName) => {
 }
 
 const startMongoClient = async () => {
-    buildConnectionString()
-
     if (!_MongoClient) {
         console.log('Starting Mongo Client')
-        _MongoClient = new MongoClient(URI)
+        _MongoClient = new MongoClient(buildConnectionString())
         await _MongoClient.connect()
         console.log('Started Mongo Client')
     }
@@ -54,10 +50,10 @@ const buildConnectionString = () => {
     console.log('Parsing connection string', MONGO_DB_CONNECTION_STRING)
 
     let connectionString = MONGO_DB_CONNECTION_STRING
-    connectionString.replace('{username}', MONGO_DB_USER)
-    connectionString.replace('{password}', MONGO_DB_PASSWORD)
-    connectionString.replace('{dbName}', MONGO_DB_DBNAME)
-
+        .replace('{username}', MONGO_DB_USER)
+        .replace('{password}', MONGO_DB_PASSWORD)
+        .replace('{dbName}', MONGO_DB_DBNAME)
+    
     console.log('Parsed connection string', connectionString)
 }
 
