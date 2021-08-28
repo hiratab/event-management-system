@@ -2,6 +2,7 @@
 
 const http = require('http')
 const express = require('express')
+const cors = require('cors')
 const helmet = require('helmet')
 
 const MongoClient = require('./config/Mongo')
@@ -41,6 +42,7 @@ const configureRoutes = () => {
 const configureApi = async () => {
   app.disable('x-powered-by')
   app.use(helmet())
+  app.use(cors())
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
 

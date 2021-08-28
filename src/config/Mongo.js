@@ -9,20 +9,19 @@ const {
 
 let _MongoClient
 
-const getMongoClient = async (dbName, collectionName) => {
+const getMongoClient = async (collectionName) => {
     if (!_MongoClient) {
         await startMongoCliente()
     }
 
-    return _MongoClient.db(dbName).collection(collectionName)
+    return await _MongoClient.db(MONGO_DB_DBNAME).collection(collectionName)
 
 }
 
 const startMongoClient = async () => {
     if (!_MongoClient) {
         console.log('Starting Mongo Client')
-        _MongoClient = new MongoClient(buildConnectionString())
-        await _MongoClient.connect()
+        _MongoClient = await new MongoClient(buildConnectionString()).connect()
         console.log('Started Mongo Client')
     }
     console.log('Testing Mongo Client connection')
@@ -45,8 +44,6 @@ const closeMongoClient = async () => {
 }
 
 const buildConnectionString = () => {
-    console.log(process.env)
-    console.log(process.env.MONGO_DB_CONNECTION_STRING)
     console.log('Parsing connection string', MONGO_DB_CONNECTION_STRING)
 
     let connectionString = MONGO_DB_CONNECTION_STRING
@@ -55,6 +52,7 @@ const buildConnectionString = () => {
         .replace('{dbName}', MONGO_DB_DBNAME)
     
     console.log('Parsed connection string', connectionString)
+    return connectionString
 }
 
 module.exports = {
