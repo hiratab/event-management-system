@@ -4,6 +4,8 @@ const http = require('http')
 const express = require('express')
 const helmet = require('helmet')
 
+const MongoClient = require('./config/Mongo')
+
 const { PORT = 3000 } = process.env
 
 const app = express()
@@ -13,8 +15,11 @@ const healthCheck = (_, res) => res.json({
   time: new Date()
 })
 
-const shutdown = (status = 1) => {
+const shutdown = async (status = 1) => {
   console.warn('Shutting down with status', status)
+
+  await MongoClient.closeMongoClient()
+
   process.exit(status)
 }
 
@@ -27,18 +32,20 @@ process.on('unhandledRejection', (error) => {
   console.error('unhandledRejection', error)
   shutdown(1)
 })
+
 const configureRoutes = () => {
   app.get('/health', healthCheck)
   app.use('/', require('./routes'))
 }
 
-const configureApi = () => {
+const configureApi = async () => {
   app.disable('x-powered-by')
   app.use(helmet())
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
 
   configureRoutes()
+  await MongoClient.startMongoClient()
 }
 
 const listen = (port = PORT) => new Promise(
