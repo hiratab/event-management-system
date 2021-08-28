@@ -9,12 +9,12 @@ const {
 
 let _MongoClient
 
-const getMongoClient = async (dbName, collectionName) => {
+const getMongoClient = async (collectionName) => {
     if (!_MongoClient) {
         await startMongoCliente()
     }
 
-    return _MongoClient.db(dbName).collection(collectionName)
+    return _MongoClient.db(MONGO_DB_DBNAME).collection(collectionName)
 
 }
 
