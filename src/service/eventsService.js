@@ -15,10 +15,16 @@ const getAllEvents = async () => {
     return await getAllEventsDB()
 }
 
-const getEvent = async (title) => {
-    const query = {
-        'title': {
-            '$regex': title
+const getEvent = async ({ eventTitle, eventLocation }) => {
+    const query = {}
+    if (eventTitle) {
+        query['title'] = {
+            '$regex': eventTitle
+        }
+    }
+    if (eventLocation) {
+        query['location'] = {
+            '$regex': eventLocation
         }
     }
 
@@ -55,6 +61,8 @@ const deleteEvent = async (title) => {
     return await deleteEventDB(query, options)
 }
 
+// @TODO Verify if deletion could be logically. Changing status to inactive for example. 
+// It will be also necessary to adapt query to only get active events
 const bulkDeleteEvent = async (title) => {
     const query = {
         title: title

@@ -33,7 +33,7 @@ const alive = async (req, res, next) => {
 
 router.get('/alive', requestWrapper(alive))
 router.get('/events', requestWrapper(getAllEvents))
-router.get('/events/:eventName', requestWrapper(getEvent))
+router.get('/events/:eventTitle/:eventLocation', requestWrapper(getEvent)) // Maybe we could merge this with GET /events. Query all when do not receive eventTitle and eventLocation
 router.put('/events', requestWrapper(createEvent))
 router.post('/events', requestWrapper(updateEvent))
 router.delete('/events', requestWrapper(deleteEvent))

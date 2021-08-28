@@ -9,9 +9,13 @@ const getAllEvents = async (req, res, next) => {
 }
 
 const getEvent = async (req, res, next) => {
-    const { eventName } = req.params
+    const { eventTitle, eventLocation } = req.params
 
-    const event = await EventsService.getEvent(eventName)
+    if ( !eventTitle && !eventLocation) {
+        throw new Error('BAD_REQUEST')
+    }
+
+    const event = await EventsService.getEvent({ eventTitle, eventLocation })
     res.json(event)
 }
 
