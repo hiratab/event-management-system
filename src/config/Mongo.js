@@ -14,15 +14,14 @@ const getMongoClient = async (collectionName) => {
         await startMongoCliente()
     }
 
-    return _MongoClient.db(MONGO_DB_DBNAME).collection(collectionName)
+    return await _MongoClient.db(MONGO_DB_DBNAME).collection(collectionName)
 
 }
 
 const startMongoClient = async () => {
     if (!_MongoClient) {
         console.log('Starting Mongo Client')
-        _MongoClient = new MongoClient(buildConnectionString())
-        await _MongoClient.connect()
+        _MongoClient = await new MongoClient(buildConnectionString()).connect()
         console.log('Started Mongo Client')
     }
     console.log('Testing Mongo Client connection')
