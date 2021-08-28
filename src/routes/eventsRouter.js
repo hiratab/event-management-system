@@ -4,11 +4,13 @@ const EventsService = require('../service/eventsService')
 
 // TODO implement filters and order by
 const getAllEvents = async (req, res, next) => {
+    console.log('GET /events')
     const events = await EventsService.getAllEvents()
     res.json(events)
 }
 
 const getEvent = async (req, res, next) => {
+    console.log('GET /events/:eventTitle/:eventLocation', req.params)
     const { eventTitle, eventLocation } = req.params
 
     if ( !eventTitle && !eventLocation) {
